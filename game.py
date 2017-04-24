@@ -20,7 +20,7 @@ bg_filenames = ('assets/images/bg_title.jpg',
 
 # setup game display
 bg_northpole = pygame.image.load(bg_filenames[1])
-size = width, height = 620*2,320*2
+size = width, height = 620,320
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Penguin')
 pygame.display.set_icon(pygame.image.load('assets/images/penguin_icon.png').convert_alpha())
