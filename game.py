@@ -42,15 +42,6 @@ snowball_img = pygame.image.load('assets/images/small_snowball.png').convert_alp
 snowball = GameObjects.Snowball(width=34, height=34, img=snowball_img)
 
 
-
-#obstacle
-#obstaclerect= smallobstacle.get_rect()
-
-#snowball= pygame.image.load("assets/images/snowball-icon.png")
-#smallball = pygame.transform.scale(snowball,(snowball_width,snowball_height))
-#snowballrect = smallball.get_rect()
-#snowball.set_colorkey(BLACK)
-
 def pquit():
     pygame.quit()
     exit()
