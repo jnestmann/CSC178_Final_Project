@@ -4,13 +4,13 @@ import pygame
 pygame.init()
 clock = pygame.time.Clock()
 
-bg_filenames = ('assets/images/bg_title.png',
-                'assets/images/bg_hut.png',
-                'assets/images/bg_credits.png'
+bg_filenames = ('assets/images/bg_title.jpg',
+                'assets/images/bg_game.jpg',
+                'assets/images/bg_credits.jpg'
                 )
 
 # setup game display
-size = screen_width, screen_height = 816, 612
+size = screen_width, screen_height = 800, 600
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Penguin')
 pygame.display.set_icon(pygame.image.load('assets/images/penguin_icon.png').convert_alpha())
