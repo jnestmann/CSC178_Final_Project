@@ -15,5 +15,5 @@ class Snowball(GameObjects):
     pass
 
 
-class Obstacle(GameObjects):
+class Snowman(GameObjects):
     pass
