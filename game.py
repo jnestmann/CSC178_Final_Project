@@ -10,7 +10,7 @@ bg_filenames = ('assets/images/bg_title.jpg',
                 )
 
 # setup game display
-size = screen_width, screen_height = 800, 600
+size = screen_width, screen_height = 800, 700
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Penguin')
 pygame.display.set_icon(pygame.image.load('assets/images/penguin_icon.png').convert_alpha())
@@ -65,9 +65,11 @@ def update_display(game_stage):
 
 def game_loop():
     # update penguin position with keyboard
+    x_change = 0
     y_change = 0
     game_stage = 'title'
     score = 0
+    player_speed = 5
 
     play = True
 
@@ -83,15 +85,26 @@ def game_loop():
                     if event.key == pygame.K_SPACE:
                         game_stage = 'game'
                 elif game_stage == 'game':
-                    if event.key == pygame.K_SPACE:
+                    if event.key == pygame.K_UP:
+                        y_change -= player_speed
+                    elif event.key == pygame.K_DOWN:
+                        y_change += player_speed
+                    elif event.key == pygame.K_LEFT:
+                        x_change -= player_speed
+                    elif event.key == pygame.K_RIGHT:
+                        x_change += player_speed
+                    elif event.key == pygame.K_SPACE:
                         game_stage = 'credits'
                 elif game_stage == 'credits':
-                    if event.key == pygame.K_SPACE:
-                        pquit()
+                    pquit()
 
             if event.type == pygame.KEYUP:
-                y_change = 0
+                if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+                    x_change = 0
+                if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+                    y_change = 0
 
+        penguin.x += x_change
         penguin.y += y_change
 
         screen.fill(PALE_BLUE)
