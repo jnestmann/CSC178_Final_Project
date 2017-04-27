@@ -4,16 +4,16 @@ import pygame
 pygame.init()
 clock = pygame.time.Clock()
 
-bg_filenames = ('assets/images/bg_title.jpg',
-                'assets/images/bg_game.jpg',
-                'assets/images/bg_credits.jpg'
+bg_filenames = ('assets/images/backgrounds/bg_title.jpg',
+                'assets/images/backgrounds/bg_game.jpg',
+                'assets/images/backgrounds/bg_credits.jpg'
                 )
 
 # setup game display
 size = screen_width, screen_height = 800, 700
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption('Penguin')
-pygame.display.set_icon(pygame.image.load('assets/images/penguin_icon.png').convert_alpha())
+pygame.display.set_icon(pygame.image.load('assets/images/gui/penguin_icon.png').convert_alpha())
 
 # Set Color Constants
 PALE_BLUE = 208, 236, 253
@@ -21,13 +21,13 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 2, 2)
 
-penguin_img = pygame.image.load('assets/images/small_penguin.png')
+penguin_img = pygame.image.load('assets/images/sprites/small_penguin.png')
 penguin = GameObjects.Penguin(x=40, y=screen_height - 40, width=34, height=34, img=penguin_img)
 
-snowman_img = pygame.image.load('assets/images/snowman.png')
+snowman_img = pygame.image.load('assets/images/sprites/snowman.png')
 snowman = GameObjects.Snowman(width=101, height=72, img=snowman_img)
 
-snowball_img = pygame.image.load('assets/images/small_snowball.png').convert_alpha()
+snowball_img = pygame.image.load('assets/images/sprites/small_snowball.png').convert_alpha()
 snowball = GameObjects.Snowball(width=34, height=34, img=snowball_img)
 
 
