@@ -1,7 +1,6 @@
 import pygame
 import random
 
-
 def load_sprite_img(img):
     image = pygame.image.load(img)
     return image, image.get_rect()
