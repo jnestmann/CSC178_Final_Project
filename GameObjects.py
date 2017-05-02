@@ -52,7 +52,7 @@ class Player(pygame.sprite.Sprite):
 class Penguin(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.img, self.rect = load_sprite_img('assets/images/sprites/small_penguin.png')
+        self.img, self.rect = load_sprite_img('assets/images/sprites/penguin.png')
         self.area = None
 
     def update(self):
@@ -72,7 +72,7 @@ class Yeti(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.img, self.rect = load_sprite_img('assets/images/sprites/yeti.png')
-        self.speed = 10
+        self.speed = 20
         self.area = None
 
     def update(self):
@@ -83,20 +83,21 @@ class Yeti(pygame.sprite.Sprite):
         x_change = 0
         y_change = 0
 
-        num2 = random.randint(1, 4)
-        if num2 == 1:
+        dir_change = random.randint(1, 4)
+        if dir_change == 1:
             y_change = self.speed
-        elif num2 == 2:
+        elif dir_change == 2:
             y_change = -self.speed
-        elif num2 == 3:
+        elif dir_change == 3:
             x_change = self.speed
-        elif num2 == 4:
+        elif dir_change == 4:
             x_change = -self.speed
         else:
             pass
 
         newpos = self.rect.move((x_change, y_change))
 
+        # this checks for collisions against sides of game area
         if newpos.bottom > self.area.bottom:
             y_change = - y_change
         if newpos.top < self.area.top:
@@ -105,6 +106,9 @@ class Yeti(pygame.sprite.Sprite):
             x_change = - x_change
         if newpos.left > self.area.left:
             x_change = - x_change
+
+        # need to check for collision with other objects
+
 
         newpos = self.rect.move((x_change, y_change))
         self.rect = newpos
