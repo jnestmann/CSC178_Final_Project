@@ -23,6 +23,7 @@ PALE_BLUE = 208, 236, 253
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 RED = (255, 2, 2)
+GREEN = (2, 255, 2)
 
 
 def pquit():
@@ -44,9 +45,9 @@ def game_over(player, win):
     player.rect = (0, 0, 0, 0)
     if win == False:
         player.kill()
-        print("You Died!")
+        message_display("You Died!", RED)
     else:
-        print("You saved the penguins!!!")
+        message_display("You saved the penguins!!!", GREEN)
     return 'credits'
 
 
@@ -55,8 +56,13 @@ def rescue_penguin(player, penguin):
     penguin.kill()
 
 
-def message_display(message):
-    pass
+def message_display(message, color):
+    font = pygame.font.Font('freesansbold.ttf', 50)
+    text = font.render(message, True, color)
+    text_rect = text.get_rect()
+    screen.blit(text, (screen_width/2 - text_rect.width/2, 25))
+    pygame.display.flip()
+    clock.tick(.3)
 
 
 def pause():
