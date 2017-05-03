@@ -40,10 +40,13 @@ def hud(score):
     pass
 
 
-def game_over(player):
+def game_over(player, win):
     player.rect = (0, 0, 0, 0)
-    player.kill()
-    print("Game Over!")
+    if win == False:
+        player.kill()
+        print("You Died!")
+    else:
+        print("You saved the penguins!!!")
     return 'credits'
 
 
@@ -146,13 +149,17 @@ def game_loop():
 
             # check for collision with monsterm, if so then end game
             if player.rect.colliderect(yeti.rect):
-                game_stage = game_over(player)
+                win = False
+                game_stage = game_over(player, win)
             # check for collision with target sprite
             # the player should get one point for each target sprite rescued(hit)
             elif pygame.sprite.spritecollideany(player, penguins):
                 penguin = pygame.sprite.spritecollideany(player, penguins)
                 score = rescue_penguin(player, penguin)
                 print(player.score)
+            elif penguins.sprites() == []:
+                win = True
+                game_stage = game_over(player, win)
             else:
                 pass
 
