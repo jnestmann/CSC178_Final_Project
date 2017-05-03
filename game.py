@@ -120,7 +120,7 @@ def game_loop():
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     y_change = 0
 
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN and game_stage == 'title':
                 mousex, mousey = event.pos
                 if 230 <= mousex <= 290 and 320 <= mousey <= 380:
                     game_stage = 'game'
