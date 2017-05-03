@@ -41,6 +41,18 @@ def hud(score):
     pass
 
 
+def game_over(player):
+    player.rect = (0,0,0,0)
+    player.kill()
+    print("Game Over!")
+    return 'credits'
+
+def rescue_penguin(score, player, penguin):
+    score += 1
+    penguin.rect = (0, 0, 0, 0)
+    penguin.kill()
+    return score
+
 def update_display(game_stage, all_sprites, score):
     screen.fill(PALE_BLUE)
     if game_stage == 'title':
@@ -100,7 +112,8 @@ def game_loop():
                         game_stage = 'credits'
 
                 elif game_stage == 'credits':
-                    pquit()
+                    if event.key == pygame.K_SPACE:
+                        pquit()
 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -108,36 +121,41 @@ def game_loop():
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     y_change = 0
 
-        player.rect.x += x_change
-        player.rect.y += y_change
 
-        # check for collision with sides of game area
-        if player.rect.left < screen_rect.left:
-            player.rect.left = screen_rect.left
-        if player.rect.right > screen_rect.right:
-            player.rect.right = screen_rect.right
-        if player.rect.top < screen_rect.top:
-            player.rect.top = screen_rect.top
-        if player.rect.bottom > screen_rect.bottom:
-            player.rect.bottom = screen_rect.bottom
+        if game_stage == 'game':
+            player.rect.x += x_change
+            player.rect.y += y_change
+
+            # check for collision with sides of game area
+            if player.rect.left < screen_rect.left:
+                player.rect.left = screen_rect.left
+            elif player.rect.right > screen_rect.right:
+                player.rect.right = screen_rect.right
+            elif player.rect.top < screen_rect.top:
+                player.rect.top = screen_rect.top
+            elif player.rect.bottom > screen_rect.bottom:
+                player.rect.bottom = screen_rect.bottom
+            else:
+                pass
+
+            # check for collision with monsterm, if so then end game
+            if player.rect.colliderect(yeti.rect):
+                game_stage = game_over(player)
+            # check for collision with target sprite
+            # the player should get one point for each target sprite rescued(hit)
+            elif player.rect.colliderect(penguin.rect):
+                score = rescue_penguin(score, player, penguin)
+                print(score)
+            else:
+                pass
 
 
-        # check for collision with monster
-
-        # If the player collides with the monster, then the game is over
-        # check for collision with target sprite
-        # the player should get one point for each target sprite rescued(hit)
-        # if (penguin.x <= agent.x <= penguin.x + penguin.width)\
-        #        and (penguin.y <= agent.y <= penguin.y + penguin.height):
-        #    pass
-        # penguin_img = pygame.image.load('assets/images/sprites/small_penguin.png')
-        # penguin = GameObjects.Penguin(width=34, height=34, img=penguin_img)
-        # penguin.x = random.randint(20, (screen_width - 20))
-        # penguin.y = random.randint(120, (screen_height-20))
         # check for collision with obstacles
         # obstacles typically just prevent forward movement, but may want to
+
         # add the ability later for different effects on the player
         # like spawning additional monsters, reducing health, score, etc
+
         all_sprites.update()
         update_display(game_stage, all_sprites, score)
         clock.tick(60)
