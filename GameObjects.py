@@ -105,10 +105,8 @@ class Yeti(pygame.sprite.Sprite):
 
         # this checks for collisions against sides of game area
         if newpos.bottom > self.area.bottom:
-            print(self.area.bottom)
             y_change = - y_change
         if newpos.top < self.area.top:
-            print(self.area.top)
             y_change = - y_change
         if newpos.right < self.area.right:
             x_change = - x_change
