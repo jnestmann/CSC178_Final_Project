@@ -1,29 +1,30 @@
 import pygame
 import random
 
+
 def load_sprite_img(img):
     image = pygame.image.load(img)
     return image, image.get_rect()
 
 
-def spawn_sprites(screen_rect):
+def spawn_sprites(game_area):
     # need a function to spawn target sprites and monsters
     player = Player()
-    player.area = screen_rect
+    player.area = game_area
 
     penguins = pygame.sprite.Group()
 
-    for _ in range(3):
+    for _ in range(30):
         penguin = Penguin()
-        penguin.rect.x = random.randint(0, screen_rect.width)
-        penguin.rect.y = random.randint(100, screen_rect.height)
-        penguin.area = screen_rect
+        penguin.rect.x = random.randint(0, game_area.width)
+        penguin.rect.y = random.randint(100, game_area.height)
+        penguin.area = game_area
         penguins.add(penguin)
 
     yeti = Yeti()
-    yeti.rect.x = random.randint(0, screen_rect.width)
-    yeti.rect.y = random.randint(100, screen_rect.height)
-    yeti.area = screen_rect
+    yeti.rect.x = random.randint(0, game_area.width)
+    yeti.rect.y = random.randint(100, game_area.height)
+    yeti.area = game_area
 
     snowball = Snowball()
 
@@ -42,6 +43,7 @@ class Player(pygame.sprite.Sprite):
         pass
 
     def move(self, num):
+        newpos = 0
         if num == 1:
             newpos = self.rect.move((0, -self.speed))
         elif num == 2:
@@ -113,7 +115,6 @@ class Yeti(pygame.sprite.Sprite):
 
         # need to check for collision with other objects
 
-
         newpos = self.rect.move((x_change, y_change))
         self.rect = newpos
 
@@ -125,12 +126,3 @@ class Obstacles(pygame.sprite.Sprite):
 
     def update(self):
         pass
-
-
-class Enemy(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.img, self.rect = load_sprite_img('assets/images/sprites/player.png')
-        self.speed = 5
-        self.area = None
-

@@ -12,9 +12,9 @@ bg_filenames = ('assets/images/backgrounds/bg_title.jpg',
 # setup game display
 size = screen_width, screen_height = 800, 700
 screen = pygame.display.set_mode(size)
-screen_rect = screen.get_rect()
-screen_rect.height = screen_rect.height - 100
-screen_rect = screen_rect.move((0, 100))
+game_area = screen.get_rect()
+game_area.height = game_area.height - 100
+screen_rect = game_area.move((0, 100))
 pygame.display.set_caption('Penguin Rescue')
 pygame.display.set_icon(pygame.image.load('assets/images/gui/penguin_icon.png').convert_alpha())
 
@@ -74,7 +74,7 @@ def update_display(game_stage, all_sprites, score):
 def game_loop():
     game_stage = 'title'  # starts with the title screen
 
-    player, penguins, yeti, snowball = GameObjects.spawn_sprites(screen_rect)
+    player, penguins, yeti, snowball = GameObjects.spawn_sprites(game_area)
     all_sprites = pygame.sprite.RenderUpdates(player, penguins, yeti, snowball)
     x_change = 0
     y_change = 0
