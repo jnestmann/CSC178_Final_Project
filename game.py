@@ -18,7 +18,6 @@ screen_rect = screen_rect.move((0, 100))
 pygame.display.set_caption('Penguin Rescue')
 pygame.display.set_icon(pygame.image.load('assets/images/gui/penguin_icon.png').convert_alpha())
 
-
 # Set Color Constants
 PALE_BLUE = 208, 236, 253
 BLACK = (0, 0, 0)
@@ -42,16 +41,16 @@ def hud(score):
 
 
 def game_over(player):
-    player.rect = (0,0,0,0)
+    player.rect = (0, 0, 0, 0)
     player.kill()
     print("Game Over!")
     return 'credits'
 
-def rescue_penguin(score, player, penguin):
-    score += 1
-    penguin.rect = (0, 0, 0, 0)
+
+def rescue_penguin(player, penguin):
+    player.score += 1
     penguin.kill()
-    return score
+
 
 def update_display(game_stage, all_sprites, score):
     screen.fill(PALE_BLUE)
@@ -75,8 +74,8 @@ def update_display(game_stage, all_sprites, score):
 def game_loop():
     game_stage = 'title'  # starts with the title screen
 
-    player, penguin, yeti, snowball = GameObjects.spawn_sprites(screen_rect)
-    all_sprites = pygame.sprite.RenderUpdates(player, penguin, yeti, snowball)
+    player, penguins, yeti, snowball = GameObjects.spawn_sprites(screen_rect)
+    all_sprites = pygame.sprite.RenderUpdates(player, penguins, yeti, snowball)
     x_change = 0
     y_change = 0
     score = 0
@@ -94,7 +93,7 @@ def game_loop():
 
                 elif game_stage == 'title':
                     if (event.key == pygame.K_SPACE or
-                    event.key == pygame.K_p):
+                                event.key == pygame.K_p):
                         game_stage = 'game'
                     elif event.key == pygame.K_q:
                         pquit()
@@ -121,7 +120,6 @@ def game_loop():
                 if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                     y_change = 0
 
-
         if game_stage == 'game':
             player.rect.x += x_change
             player.rect.y += y_change
@@ -143,12 +141,12 @@ def game_loop():
                 game_stage = game_over(player)
             # check for collision with target sprite
             # the player should get one point for each target sprite rescued(hit)
-            elif player.rect.colliderect(penguin.rect):
-                score = rescue_penguin(score, player, penguin)
-                print(score)
+            elif pygame.sprite.spritecollideany(player, penguins):
+                penguin = pygame.sprite.spritecollideany(player, penguins)
+                score = rescue_penguin(player, penguin)
+                print(player.score)
             else:
                 pass
-
 
         # check for collision with obstacles
         # obstacles typically just prevent forward movement, but may want to

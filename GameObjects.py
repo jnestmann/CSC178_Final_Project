@@ -11,19 +11,23 @@ def spawn_sprites(screen_rect):
     player = Player()
     player.area = screen_rect
 
-    penguin = Penguin()
-    penguin.rect.x = random.randint(20, (screen_rect.width - 20))
-    penguin.rect.y = random.randint(20, (screen_rect.height - 20))
-    penguin.area = screen_rect
+    penguins = pygame.sprite.Group()
+
+    for _ in range(3):
+        penguin = Penguin()
+        penguin.rect.x = random.randint(0, screen_rect.width)
+        penguin.rect.y = random.randint(100, screen_rect.height)
+        penguin.area = screen_rect
+        penguins.add(penguin)
 
     yeti = Yeti()
-    yeti.rect.x = random.randint(20, (screen_rect.width - 20))
-    yeti.rect.y = random.randint(20, (screen_rect.height - 20))
+    yeti.rect.x = random.randint(0, screen_rect.width)
+    yeti.rect.y = random.randint(100, screen_rect.height)
     yeti.area = screen_rect
 
     snowball = Snowball()
 
-    return player, penguin, yeti, snowball
+    return player, penguins, yeti, snowball
 
 
 class Player(pygame.sprite.Sprite):
@@ -32,6 +36,7 @@ class Player(pygame.sprite.Sprite):
         self.img, self.rect = load_sprite_img('assets/images/sprites/player.png')
         self.speed = 5
         self.area = None
+        self.score = 0
 
     def update(self):
         pass
