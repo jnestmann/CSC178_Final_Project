@@ -14,7 +14,7 @@ size = screen_width, screen_height = 800, 700
 screen = pygame.display.set_mode(size)
 game_area = screen.get_rect()
 game_area.height = game_area.height - 100
-screen_rect = game_area.move((0, 100))
+game_area = game_area.move((0, 100))
 pygame.display.set_caption('Penguin Rescue')
 pygame.display.set_icon(pygame.image.load('assets/images/gui/penguin_icon.png').convert_alpha())
 
@@ -133,14 +133,14 @@ def game_loop():
             player.rect.y += y_change
 
             # check for collision with sides of game area
-            if player.rect.left < screen_rect.left:
-                player.rect.left = screen_rect.left
-            elif player.rect.right > screen_rect.right:
-                player.rect.right = screen_rect.right
-            elif player.rect.top < screen_rect.top:
-                player.rect.top = screen_rect.top
-            elif player.rect.bottom > screen_rect.bottom:
-                player.rect.bottom = screen_rect.bottom
+            if player.rect.left < game_area.left:
+                player.rect.left = game_area.left
+            elif player.rect.right > game_area.right:
+                player.rect.right = game_area.right
+            elif player.rect.top < game_area.top:
+                player.rect.top = game_area.top
+            elif player.rect.bottom > game_area.bottom:
+                player.rect.bottom = game_area.bottom
             else:
                 pass
 
