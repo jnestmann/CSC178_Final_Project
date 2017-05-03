@@ -55,6 +55,19 @@ def rescue_penguin(player, penguin):
     penguin.kill()
 
 
+def message_display(message):
+    pass
+
+
+def pause():
+    pause = True
+    while pause:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_p:
+                pause = False
+        message_display("Paused")
+
+
 def update_display(game_stage, all_sprites, score):
     screen.fill(PALE_BLUE)
     if game_stage == 'title':
@@ -110,8 +123,8 @@ def game_loop():
                         x_change -= player.speed
                     elif event.key == pygame.K_RIGHT:
                         x_change += player.speed
-                    elif event.key == pygame.K_SPACE:
-                        game_stage = 'credits'
+                    elif event.key == pygame.K_p:
+                        pause()
 
                 elif game_stage == 'credits':
                     if event.key == pygame.K_SPACE:
@@ -129,7 +142,6 @@ def game_loop():
                     game_stage = 'game'
                 if 560 <= mousex <= 610 and 320 <= mousey <= 380:
                     game_stage = 'credits'
-
 
         if game_stage == 'game':
             player.rect.x += x_change
