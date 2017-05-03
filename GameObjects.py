@@ -120,3 +120,12 @@ class Obstacles(pygame.sprite.Sprite):
 
     def update(self):
         pass
+
+
+class Enemy(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.img, self.rect = load_sprite_img('assets/images/sprites/player.png')
+        self.speed = 5
+        self.area = None
+

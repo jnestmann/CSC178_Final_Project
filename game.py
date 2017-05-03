@@ -13,6 +13,8 @@ bg_filenames = ('assets/images/backgrounds/bg_title.jpg',
 size = screen_width, screen_height = 800, 700
 screen = pygame.display.set_mode(size)
 screen_rect = screen.get_rect()
+screen_rect.height = screen_rect.height - 100
+screen_rect = screen_rect.move((0, 100))
 pygame.display.set_caption('Penguin Rescue')
 pygame.display.set_icon(pygame.image.load('assets/images/gui/penguin_icon.png').convert_alpha())
 
@@ -39,7 +41,7 @@ def hud(score):
     pass
 
 
-def update_display(game_stage, all_sprites):
+def update_display(game_stage, all_sprites, score):
     screen.fill(PALE_BLUE)
     if game_stage == 'title':
         background = pygame.image.load(bg_filenames[0])
@@ -48,6 +50,7 @@ def update_display(game_stage, all_sprites):
         background = pygame.image.load(bg_filenames[1])
         screen.blit(background, (0, 0))
         draw_sprites(all_sprites)
+        hud(score)
     elif game_stage == 'credits':
         background = pygame.image.load(bg_filenames[2])
         screen.blit(background, (0, 0))
@@ -109,9 +112,18 @@ def game_loop():
         player.rect.y += y_change
 
         # check for collision with sides of game area
-        # game objects shouldn't be able to go past the sides of the
-        # game area, but hitting it shouldn't end the game either
+        if player.rect.left < screen_rect.left:
+            player.rect.left = screen_rect.left
+        if player.rect.right > screen_rect.right:
+            player.rect.right = screen_rect.right
+        if player.rect.top < screen_rect.top:
+            player.rect.top = screen_rect.top
+        if player.rect.bottom > screen_rect.bottom:
+            player.rect.bottom = screen_rect.bottom
+
+
         # check for collision with monster
+
         # If the player collides with the monster, then the game is over
         # check for collision with target sprite
         # the player should get one point for each target sprite rescued(hit)
@@ -127,7 +139,7 @@ def game_loop():
         # add the ability later for different effects on the player
         # like spawning additional monsters, reducing health, score, etc
         all_sprites.update()
-        update_display(game_stage, all_sprites)
+        update_display(game_stage, all_sprites, score)
         clock.tick(60)
 
     pquit()
