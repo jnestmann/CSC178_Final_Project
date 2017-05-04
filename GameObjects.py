@@ -16,7 +16,7 @@ def spawn_sprites(game_area):
 
     for _ in range(30):
         penguin = Penguin()
-        penguin.rect.x = random.randint(0, game_area.width)
+        penguin.rect.x = random.randint(0, game_area.width-penguin.rect.width)
         penguin.rect.y = random.randint(100, game_area.height)
         penguin.area = game_area
         penguins.add(penguin)
@@ -78,8 +78,11 @@ class Yeti(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.img, self.rect = load_sprite_img('assets/images/sprites/yeti.png')
-        self.speed = 20
+        self.speed = 10
         self.area = None
+        self.dir_duration = 0
+        self.direction = 0
+
 
     def update(self):
         # ultimately we want the yeti to chase the player
@@ -89,29 +92,35 @@ class Yeti(pygame.sprite.Sprite):
         x_change = 0
         y_change = 0
 
-        dir_change = random.randint(1, 4)
-        if dir_change == 1:
+        if self.direction == 1:
             y_change = self.speed
-        elif dir_change == 2:
+        elif self.direction == 2:
             y_change = -self.speed
-        elif dir_change == 3:
+        elif self.direction == 3:
             x_change = self.speed
-        elif dir_change == 4:
+        elif self.direction == 4:
             x_change = -self.speed
         else:
             pass
+
+        if self.dir_duration == 0:
+            self.direction = random.randint(1, 4)
+            self.dir_duration = random.randint(1, 10)
+        else:
+            self.dir_duration -= 1
+
 
         newpos = self.rect.move((x_change, y_change))
 
         # this checks for collisions against sides of game area
         if newpos.bottom > self.area.bottom:
-            y_change = - y_change
+            self.direction = 2
         if newpos.top < self.area.top:
-            y_change = - y_change
-        if newpos.right < self.area.right:
-            x_change = - x_change
-        if newpos.left > self.area.left:
-            x_change = - x_change
+            self.direction = 1
+        if newpos.right > self.area.right:
+            self.direction = 4
+        if newpos.left < self.area.left:
+            self.direction = 3
 
         # need to check for collision with other objects
 

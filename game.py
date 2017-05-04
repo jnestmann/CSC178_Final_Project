@@ -1,5 +1,5 @@
-import GameObjects
 import pygame
+import GameObjects
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -47,7 +47,7 @@ def game_over(player, win):
         player.kill()
         message_display("You Died!", RED)
     else:
-        message_display("You saved the penguins!!!", GREEN)
+        message_display("You saved the penguins!!!", WHITE)
     return 'credits'
 
 
