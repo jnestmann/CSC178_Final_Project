@@ -26,9 +26,7 @@ def spawn_sprites(game_area):
     yeti.rect.y = random.randint(100, game_area.height)
     yeti.area = game_area
 
-    snowball = Snowball()
-
-    return player, penguins, yeti, snowball
+    return player, penguins, yeti
 
 
 class Player(pygame.sprite.Sprite):
@@ -103,15 +101,6 @@ class Penguin(pygame.sprite.Sprite):
 
         newpos = self.rect.move((x_change, y_change))
         self.rect = newpos
-
-
-class Snowball(pygame.sprite.Sprite):
-    def __init__(self):
-        super().__init__()
-        self.img, self.rect = load_sprite_img('assets/images/sprites/small_snowball.png')
-
-    def update(self):
-        pass
 
 
 class Yeti(pygame.sprite.Sprite):

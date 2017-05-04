@@ -45,10 +45,16 @@ def game_over(player, win):
     player.rect = (0, 0, 0, 0)
     if win == False:
         player.kill()
-        message_display("You Died!", RED)
+        message_display("You Died!.", RED)
     else:
         message_display("You saved the penguins!!!", WHITE)
-    return 'credits'
+
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                return 'credits'
+            else:
+                continue
 
 
 def rescue_penguin(player, penguin):
@@ -57,21 +63,28 @@ def rescue_penguin(player, penguin):
 
 
 def message_display(message, color):
-    font = pygame.font.Font('freesansbold.ttf', 50)
-    text = font.render(message, True, color)
+    font_face = 'freesansbold.ttf'
+    font_large = pygame.font.Font(font_face, 50)
+    text = font_large.render(message, True, color)
     text_rect = text.get_rect()
-    screen.blit(text, (screen_width/2 - text_rect.width/2, 25))
+    screen.blit(text, (screen_width/2 - text_rect.width/2, 20))
+    font_small = pygame.font.Font(font_face, 36)
+    sb_text = font_small.render("Press spacebar to continue.", True, BLACK)
+    sb_text_rect = sb_text.get_rect()
+    screen.blit(sb_text, (screen_width/2 - sb_text_rect.width/2, 120))
     pygame.display.flip()
-    clock.tick(.3)
 
 
 def pause():
     pause = True
     while pause:
         for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_p:
-                pause = False
-        message_display("Paused")
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pquit()
+                elif event.key == pygame.K_SPACE or event.key == pygame.K_p:
+                    pause = False
+        message_display("Paused", RED)
 
 
 def update_display(game_stage, all_sprites, score):
@@ -96,8 +109,8 @@ def update_display(game_stage, all_sprites, score):
 def game_loop():
     game_stage = 'title'  # starts with the title screen
 
-    player, penguins, yeti, snowball = GameObjects.spawn_sprites(game_area)
-    all_sprites = pygame.sprite.RenderUpdates(player, penguins, yeti, snowball)
+    player, penguins, yeti = GameObjects.spawn_sprites(game_area)
+    all_sprites = pygame.sprite.RenderUpdates(player, penguins, yeti)
     x_change = 0
     y_change = 0
     score = 0
