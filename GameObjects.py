@@ -60,9 +60,49 @@ class Penguin(pygame.sprite.Sprite):
         super().__init__()
         self.img, self.rect = load_sprite_img('assets/images/sprites/penguin.png')
         self.area = None
+        self.speed = 3
+        self.direction = 0
+        self.dir_duration = 0
 
     def update(self):
-        pass
+        x_change = 0
+        y_change = 0
+
+        if self.direction == 1:
+            y_change = self.speed
+        elif self.direction == 2:
+            y_change = -self.speed
+        elif self.direction == 3:
+            x_change = self.speed
+        elif self.direction == 4:
+            x_change = -self.speed
+        else:
+            x_change = 0
+            y_change = 0
+
+        if self.dir_duration == 0:
+            self.direction = random.randint(1, 8)
+            self.dir_duration = random.randint(1, 20)
+        else:
+            self.dir_duration -= 1
+
+
+        newpos = self.rect.move((x_change, y_change))
+
+        # this checks for collisions against sides of game area
+        if newpos.bottom > self.area.bottom:
+            self.direction = 2
+        if newpos.top < self.area.top:
+            self.direction = 1
+        if newpos.right > self.area.right:
+            self.direction = 4
+        if newpos.left < self.area.left:
+            self.direction = 3
+
+        # need to check for collision with other objects
+
+        newpos = self.rect.move((x_change, y_change))
+        self.rect = newpos
 
 
 class Snowball(pygame.sprite.Sprite):
