@@ -9,6 +9,8 @@ bg_filenames = ('assets/images/backgrounds/bg_title.jpg',
                 'assets/images/backgrounds/bg_credits.jpg'
                 )
 
+game_font = 'assets/fonts/RaviPrakash-Regular.ttf'
+
 # setup game display
 size = screen_width, screen_height = 800, 700
 screen = pygame.display.set_mode(size)
@@ -38,12 +40,9 @@ def draw_sprites(all_sprites):
 
 # need a function to update HUD (score, etc)
 def hud(player):
-    font = pygame.font.SysFont('chalkduster.ttf', 48)
-    text = font.render(" :" + (str(player.score)), True, WHITE)
-    textrect = text.get_rect()
-    screen.blit(text, (screen_width/2-textrect.width/2, 2))
-    imagescore = pygame.image.load('assets/images/sprites/penguin.png')
-    screen.blit(imagescore, (screen_width/2-textrect.width/2-20, 2))
+    font = pygame.font.Font(game_font, 48)
+    text = font.render(":{:0>2}".format(str(player.score)), True, WHITE)
+    screen.blit(text, (60, 20))
 
 
 def game_over(player, win):
@@ -68,12 +67,11 @@ def rescue_penguin(player, penguin):
 
 
 def message_display(message, color):
-    font_face = 'freesansbold.ttf'
-    font_large = pygame.font.Font(font_face, 50)
+    font_large = pygame.font.Font(game_font, 50)
     text = font_large.render(message, True, color)
     text_rect = text.get_rect()
     screen.blit(text, (screen_width/2 - text_rect.width/2, 20))
-    font_small = pygame.font.Font(font_face, 36)
+    font_small = pygame.font.Font(game_font, 36)
     sb_text = font_small.render("Press spacebar to continue.", True, BLACK)
     sb_text_rect = sb_text.get_rect()
     screen.blit(sb_text, (screen_width/2 - sb_text_rect.width/2, 120))
@@ -191,8 +189,7 @@ def game_loop():
             # the player should get one point for each target sprite rescued(hit)
             elif pygame.sprite.spritecollideany(player, penguins):
                 penguin = pygame.sprite.spritecollideany(player, penguins)
-                score = rescue_penguin(player, penguin)
-                print(player.score)
+                rescue_penguin(player, penguin)
             elif penguins.sprites() == []:
                 win = True
                 game_stage = game_over(player, win)
