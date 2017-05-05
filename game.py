@@ -37,8 +37,13 @@ def draw_sprites(all_sprites):
 
 
 # need a function to update HUD (score, etc)
-def hud(score):
-    pass
+def hud(player):
+    font = pygame.font.SysFont('chalkduster.ttf', 48)
+    text = font.render(" :" + (str(player.score)), True, WHITE)
+    textrect = text.get_rect()
+    screen.blit(text, (screen_width/2-textrect.width/2, 2))
+    imagescore = pygame.image.load('assets/images/sprites/penguin.png')
+    screen.blit(imagescore, (screen_width/2-textrect.width/2-20, 2))
 
 
 def game_over(player, win):
@@ -87,7 +92,7 @@ def pause():
         message_display("Paused", RED)
 
 
-def update_display(game_stage, all_sprites, score):
+def update_display(game_stage, all_sprites, player):
     screen.fill(PALE_BLUE)
     if game_stage == 'title':
         background = pygame.image.load(bg_filenames[0])
@@ -96,7 +101,7 @@ def update_display(game_stage, all_sprites, score):
         background = pygame.image.load(bg_filenames[1])
         screen.blit(background, (0, 0))
         draw_sprites(all_sprites)
-        hud(score)
+        hud(player)
     elif game_stage == 'credits':
         background = pygame.image.load(bg_filenames[2])
         screen.blit(background, (0, 0))
@@ -201,7 +206,7 @@ def game_loop():
         # like spawning additional monsters, reducing health, score, etc
 
         all_sprites.update()
-        update_display(game_stage, all_sprites, score)
+        update_display(game_stage, all_sprites, player)
         clock.tick(60)
 
     pquit()
