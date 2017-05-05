@@ -9,6 +9,14 @@ bg_filenames = ('assets/images/backgrounds/bg_title.jpg',
                 'assets/images/backgrounds/bg_credits.jpg'
                 )
 
+music_files = ('assets/sounds/start_screen_music.wav',
+               'assets/sounds/level_music.wav',
+               'assets/sounds/credits_music.wav'
+)
+
+get_penguin = pygame.mixer.Sound('assets/sounds/penguin_get.wav')
+hit_yeti = pygame.mixer.Sound('assets/sounds/yeti_hit.wav')
+
 game_font = 'assets/fonts/RaviPrakash-Regular.ttf'
 
 # setup game display
@@ -49,9 +57,10 @@ def game_over(player, win):
     player.rect = (0, 0, 0, 0)
     if win == False:
         player.kill()
+        pygame.mixer.Sound.play(hit_yeti)
         message_display("You Died!.", RED)
     else:
-        message_display("You saved the penguins!!!", WHITE)
+        message_display("Game Over", WHITE)
 
     while True:
         for event in pygame.event.get():
@@ -62,6 +71,7 @@ def game_over(player, win):
 
 
 def rescue_penguin(player, penguin):
+    pygame.mixer.Sound.play(get_penguin)
     player.score += 1
     penguin.kill()
 
@@ -80,6 +90,7 @@ def message_display(message, color):
 
 def pause():
     pause = True
+    pygame.mixer.music.pause()
     while pause:
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
@@ -88,6 +99,8 @@ def pause():
                 elif event.key == pygame.K_SPACE or event.key == pygame.K_p:
                     pause = False
         message_display("Paused", RED)
+    else:
+        pygame.mixer.music.play(-1)
 
 
 def update_display(game_stage, all_sprites, player):
@@ -118,6 +131,9 @@ def game_loop():
     y_change = 0
     score = 0
 
+    pygame.mixer.music.load('assets/sounds/Start_screen_music.wav')
+    pygame.mixer.music.play(-1)
+
     play = True
 
     while play:
@@ -132,9 +148,15 @@ def game_loop():
                 elif game_stage == 'title':
                     if (event.key == pygame.K_SPACE or
                                 event.key == pygame.K_p):
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.load('assets/sounds/level_music.wav')
+                        pygame.mixer.music.play(-1)
                         game_stage = 'game'
                     elif event.key == pygame.K_q:
-                        pquit()
+                        game_stage = 'credits'
+                        pygame.mixer.music.stop()
+                        pygame.mixer.music.load('assets/sounds/credits_music.wav')
+                        pygame.mixer.music.play(-1)
 
                 elif game_stage == 'game':
                     if event.key == pygame.K_UP:
@@ -151,7 +173,6 @@ def game_loop():
                 elif game_stage == 'credits':
                     if event.key == pygame.K_SPACE:
                         pquit()
-
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                     x_change = 0
@@ -162,8 +183,15 @@ def game_loop():
                 mousex, mousey = event.pos
                 if 230 <= mousex <= 290 and 320 <= mousey <= 380:
                     game_stage = 'game'
+                    pygame.mixer.music.stop()
+                    pygame.mixer.music.load('assets/sounds/level_music.wav')
+                    pygame.mixer.music.play(-1)
+
                 if 560 <= mousex <= 610 and 320 <= mousey <= 380:
                     game_stage = 'credits'
+                    pygame.mixer.music.stop()
+                    pygame.mixer.music.load('assets/sounds/credits_music.wav')
+                    pygame.mixer.music.play(-1)
 
         if game_stage == 'game':
             player.rect.x += x_change
