@@ -1,4 +1,5 @@
 import pygame
+import random
 import GameObjects
 
 pygame.init()
@@ -209,7 +210,7 @@ def game_loop():
             else:
                 pass
 
-            # check for collision with monsterm, if so then end game
+            # check for collision with monster, if so then end game
             if player.rect.colliderect(yeti.rect):
                 win = False
                 game_stage = game_over(player, win)
@@ -218,6 +219,13 @@ def game_loop():
             elif pygame.sprite.spritecollideany(player, penguins):
                 penguin = pygame.sprite.spritecollideany(player, penguins)
                 rescue_penguin(player, penguin)
+            elif pygame.sprite.spritecollideany(yeti, penguins):
+                penguin = pygame.sprite.spritecollideany(yeti, penguins)
+                chance_to_eat = random.randint(1, 20)
+                if chance_to_eat == 20:
+                    penguin.kill()
+                else:
+                    pass
             elif penguins.sprites() == []:
                 win = True
                 game_stage = game_over(player, win)
