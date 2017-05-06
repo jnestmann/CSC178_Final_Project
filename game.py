@@ -5,6 +5,7 @@ import GameObjects
 pygame.init()
 clock = pygame.time.Clock()
 
+
 bg_filenames = ('assets/images/backgrounds/bg_title.jpg',
                 'assets/images/backgrounds/bg_game.jpg',
                 'assets/images/backgrounds/bg_credits.jpg'
@@ -17,6 +18,7 @@ music_files = ('assets/sounds/start_screen_music.wav',
 
 get_penguin = pygame.mixer.Sound('assets/sounds/penguin_get.wav')
 hit_yeti = pygame.mixer.Sound('assets/sounds/yeti_hit.wav')
+wall_hit = pygame.mixer.Sound('assets/sounds/wall_hit.wav')
 
 game_font = 'assets/fonts/RaviPrakash-Regular.ttf'
 
@@ -200,12 +202,16 @@ def game_loop():
 
             # check for collision with sides of game area
             if player.rect.left < game_area.left:
+                pygame.mixer.Sound.play(wall_hit)
                 player.rect.left = game_area.left
             elif player.rect.right > game_area.right:
+                pygame.mixer.Sound.play(wall_hit)
                 player.rect.right = game_area.right
             elif player.rect.top < game_area.top:
+                pygame.mixer.Sound.play(wall_hit)
                 player.rect.top = game_area.top
             elif player.rect.bottom > game_area.bottom:
+                pygame.mixer.Sound.play(wall_hit)
                 player.rect.bottom = game_area.bottom
             else:
                 pass
